@@ -1,2 +1,3 @@
 # Expense-Manager-
-A desktop application using MySQL and Python
+A desktop application using MySQL and Python Tkinter GUI
+
