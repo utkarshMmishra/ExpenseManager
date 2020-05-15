@@ -86,13 +86,7 @@ class AdminPage:
         self.addNewIncomeButton = Button(self.down_frame, text="Add new income", font=self.font, bg='#938DF6')
         self.addNewIncomeButton.place(x=925, y=570, anchor='center')
         self.addNewIncomeButton.bind("<Button-1>", self.addNewIncome)
-        self.family_income = Button(self.down_frame, text="Total Family Income", font=self.font, bg='#938DF6')
-        self.family_income.place(x=1000, y=650, anchor='center')
-        self.family_income.bind("<Button-1>", self.display_family_income)
-        self.family_expenses = Button(self.down_frame, text="Total Family Expenses", font=self.font, bg='#938DF6')
-        self.family_expenses.place(x=500, y=650, anchor='center')
-        self.family_expenses.bind("<Button-1>", self.display_family_expenses)
-
+      
     def display(self):     # utkarsh
         income_amount = self.print_total_income()
         expenses_amount = self.print_total_expenes()
@@ -108,18 +102,6 @@ class AdminPage:
         new_window = Toplevel(self.root)
         Message.Message(new_window, self.color, message)
         new_window.wait_window()
-
-    def display_family_income(self, event):
-        mycursor = self.dbconnection.cursor()
-        mycursor.execute("select sum(amount) from income")
-        total = mycursor.fetchone()
-        self.message("Total Family Income\n{0}".format(total[0]))
-
-    def display_family_expenses(self, event):
-        mycursor = self.dbconnection.cursor()
-        mycursor.execute("select sum(amount) from expense")
-        total = mycursor.fetchone()
-        self.message("Total Family Expenses\n{0}".format(total[0]))
 
     def addNewExpense(self, event):
         new_window = Toplevel(self.root)

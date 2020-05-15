@@ -44,7 +44,7 @@ class MainPage:
         Label(text="").pack()
         self.loginButton = Button(frame1, text="Login", font=self.font)
         self.loginButton.bind("<Button>", LoginFrame(self.parent,self.root,
-        	self.height,self.width,self.side,self.color,self.dbConnection))
+            self.height,self.width,self.side,self.color,self.dbConnection))
         Label(text="").pack()
         Button(frame1,text="Sign-Up",height="3",width=30,command=self.register).pack()
 
@@ -104,12 +104,16 @@ class MainPage:
         try:
             if member_id_info in final_username_list:
                 messagebox.showerror("Error","Entered member id is registered")
+            elif len(password_info)<=7:
+                messagebox.showerror("Error","Enter a password of size 8")
             else:
-                self.insert_family(member_id_info,first_name_info,last_name_info,username_info,password_info)
-                self.insert_income(member_id_info)
-                self.message("Signed Up successfully")
-                
-                self.register_screen.destroy()
+                val=self.validate(password_info)
+                if val==True:
+                    self.insert_family(member_id_info,first_name_info,last_name_info,username_info,password_info)
+                    self.insert_income(member_id_info)
+                    self.message("Signed Up successfully")
+                    
+                    self.register_screen.destroy()
 
         except Exception as e:
             messagebox.showerror(e)
@@ -137,5 +141,22 @@ class MainPage:
         new_window = Toplevel(self.root)
         Message.Message(new_window, self.color, message)
         new_window.wait_window()
+
+    def validate(self,password):
+        SpecialSym=['@','#','$','&','*']
+        return_val=True
+        if not any(char.isdigit() for char in password):
+            self.message("The password should have at least\none numeral")
+            return_val=False
+        if not any(char.isupper() for char in password):
+            self.message("The password should have at least\none uppercase letter")
+            return_val=False
+        if not any(char.islower() for char in password):
+            self.message("The password should have at least\none lowercase letter")
+            return_val=False
+        if not any(char in SpecialSym for char in password):
+            self.message("The password should have at least\none special symbols")
+            return_val=False
+        return return_val
 
 
